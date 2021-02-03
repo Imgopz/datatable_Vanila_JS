@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body{
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    table, th, td {
+        border: none;
+        border-collapse: collapse;
+        padding: 5px;
+        text-align: left;
+    }
+
+    thead th{
+        border-bottom: solid black 1px;
+        padding-left: 20px;
+    }
+
+    tfoot th{
+        border-top: solid black 1px;
+        padding-left: 20px;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tbody tr {
+        border-bottom: rgb(204, 204, 204) solid 1px;
+    }
+
+    table{
+        width: 40%;
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .maintable{
+        width: 80%;
+        margin: auto;
+    }
+
+    .searchbar, .navigation{
+        display: flex;
+        width: 40%;
+        justify-content: space-between;
+        margin: auto;
+    }
+
+    .paginate_button {
+        cursor: pointer;
+        padding: 10px 20px;
+    }
+
+    .paginate_button.previous, .paginate_button.next {
+        pointer-events: none;
+        color: rgb(172, 172, 172);
+    }
+
+    .active {
+        cursor: pointer;
+        border: 1px solid black;
+        padding: 10px 20px;
+        margin: 5px;
+        background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(231, 231, 231));
+    }
+
+    .paginate_button:hover {
+        background: linear-gradient(to bottom, rgb(82, 82, 82), rgb(0, 0, 0));
+        color: white;
+    }
+
+    input {
+        height: 27px;
+        padding-left: 5px;
+        outline: none;
+        border: 1px solid #aaa;
+        border-radius: 3px;
+    }
+    
+</style>
+</head>
+<body onload="GenerateTable()">
+    <div class="searchbar">
+        <label>Show <select name="example_length" aria-controls="example" class="" id="selectedValue"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label>
+        <label>Search: <input type="search" class="" placeholder="Search" aria-controls="example"></label>
+    </div>
+    <div id="maintable">
+           
+    </div>
+    <div class="navigation">
+        <div class="dataTables_info">Showing <span id="fromValue">1</span> to <span id="toValue">20</span> of <span id="totalValue">20</span> entries</div>
+        <div class="dataTables_paginate">
+            <a class="paginate_button" id="previousButton" onclick="reply_click(this.id)">Previous</a> 
+             <!-- need to disable if the first page is active -->
+            <span id="pageNumbers"> 
+            <!-- removed paginate_button and added active class  -->
+            </span>
+            <a class="paginate_button" id="nextButton" onclick="reply_click(this.id)">Next</a> 
+            <!-- need to disable if the last page is active -->
+        </div>
+    </div>
+    <br>
+    <script type = "text/javascript">
+        var currentPage = 1;
+        var pages = 0;
+        var itemsPerPage = parseInt(document.getElementById("selectedValue").value);
+        var customers = new Array();
+        function GenerateTable() {
+            
+            //Build an array containing Customer records.
+            customers.push(["Customer Id", "Name", "Country"]);
+            customers.push([1, "John Hammond", "United States"]);
+            customers.push([2, "Mudassar Khan", "India"]);
+            customers.push([3, "Suzanne Mathews", "France"]);
+            customers.push([4, "Robert Schidner", "Russia"]);
+            customers.push([5, "Robert Schidner", "Russia"]);
+            customers.push([6, "Robert Schidner", "Russia"]);
+            customers.push([7, "Robert Schidner", "Russia"]);
+            customers.push([8, "Robert Schidner", "Russia"]);
+            customers.push([9, "Robert Schidner", "Russia"]);
+            customers.push([10, "Robert Schidner", "Russia"]);
+            customers.push([11, "Robert Schidner", "Russia"]);
+            customers.push([12, "Robert Schidner", "Russia"]);
+            customers.push([13, "Mudassar Khan", "India"]);
+            customers.push([14, "Mudassar Khan", "India"]);
+            customers.push([15, "Mudassar Khan", "India"]);
+            customers.push([16, "Mudassar Khan", "India"]);
+            customers.push([17, "Mudassar Khan", "India"]);
+            customers.push([18, "Mudassar Khan", "India"]);
+            customers.push([19, "Mudassar Khan", "India"]);
+            customers.push([20, "Mudassar Khan", "India"]);
+            customers.push([21, "Mudassar Khan", "India"]);
+            customers.push([22, "Mudassar Khan", "India"]);
+            customers.push([23, "Mudassar Khan", "India"]);
+            customers.push([24, "Mudassar Khan", "India"]);
+            customers.push([25, "Mudassar Khan", "India"]);
+
+            //Create a HTML Table element.
+            var table = document.createElement("TABLE");
+            table.border = "1";
+
+            //Get the count of columns.
+            var columnCount = customers[0].length;
+
+            //Add the header row.
+            var header = table.createTHead();
+            var row = header.insertRow(-1);
+            for (var i = 0; i < columnCount; i++) {
+                var headerCell = document.createElement("TH");
+                headerCell.innerHTML = customers[0][i];
+                row.appendChild(headerCell);
+            }
+
+            // Get no of items per page value
+            var x = document.getElementById("selectedValue").value;
+
+            // Find total number of pages
+            //console.log(Math.ceil((customers.length-1)/x));
+            pages = Math.ceil((customers.length-1)/x);
+
+            //Add the data rows.
+            //Default value of show entries is 10
+            var listToBeDisplayed = customers.slice(0, itemsPerPage + 1);
+            var body = table.createTBody();
+            for (var i = 1; i < listToBeDisplayed.length; i++) {
+                row = body.insertRow(-1);
+                for (var j = 0; j < columnCount; j++) {
+                    var cell = row.insertCell(-1);
+                    cell.innerHTML = listToBeDisplayed[i][j];
+                }
+            }
+
+            //Add the footer row.
+            var footer = table.createTFoot();
+            var row = footer.insertRow(-1);
+            for (var i = 0; i < columnCount; i++) {
+                var footerCell = document.createElement("TH");
+                footerCell.innerHTML = customers[0][i];
+                row.appendChild(footerCell);
+            }
+
+            var dvTable = document.getElementById("maintable");
+            dvTable.innerHTML = "";
+            dvTable.appendChild(table);
+           
+
+            // Add number of anchor tags required for calculated page numbers
+            for (var i=1; i<=pages; i++ ) {
+                var page = document.createElement("A");
+                page.innerHTML = i;
+                if(i==1){
+                    page.classList.add("active");
+                    page.setAttribute("id", "pageNo" + i);
+                    page.setAttribute("onclick", "reply_click(this.id)");
+                    document.getElementById("previousButton").classList.add("previous");
+                }
+                else {
+                    page.classList.add("paginate_button")
+                    page.setAttribute("id", "pageNo" + i);
+                    page.setAttribute("onclick", "reply_click(this.id)");
+                    // page.setAttribute("onclick", "pageChange("+i+", this)");
+                }
+                document.getElementById("pageNumbers").appendChild(page);
+            }
+
+            var fromValue = document.getElementById("fromValue");
+            var toValue = document.getElementById("toValue");
+            var totalValue = document.getElementById("totalValue");
+            fromValue.innerHTML = 1;
+            toValue.innerHTML = itemsPerPage;
+            totalValue.innerHTML = customers.length - 1;
+        }
+
+        function GenerateModifiedTable(activePage) {
+          
+            //Create a HTML Table element.
+            var table = document.createElement("TABLE");
+            table.border = "1";
+
+            //Get the count of columns.
+            var columnCount = customers[0].length;
+
+            //Add the header row.
+            var header = table.createTHead();
+            var row = header.insertRow(-1);
+            for (var i = 0; i < columnCount; i++) {
+                var headerCell = document.createElement("TH");
+                headerCell.innerHTML = customers[0][i];
+                row.appendChild(headerCell);
+            }
+
+            //Add the data rows.
+            var endValue = activePage * itemsPerPage;
+            console.log(endValue);
+            var listToBeDisplayed = customers.slice(endValue-itemsPerPage, endValue + 1);
+            var body = table.createTBody();
+            for (var i = 1; i < listToBeDisplayed.length; i++) {
+                row = body.insertRow(-1);
+                for (var j = 0; j < columnCount; j++) {
+                    var cell = row.insertCell(-1);
+                    cell.innerHTML = listToBeDisplayed[i][j];
+                }
+            }
+
+            //Add the footer row.
+            var footer = table.createTFoot();
+            var row = footer.insertRow(-1);
+            for (var i = 0; i < columnCount; i++) {
+                var footerCell = document.createElement("TH");
+                footerCell.innerHTML = customers[0][i];
+                row.appendChild(footerCell);
+            }
+
+            var dvTable = document.getElementById("maintable");
+            dvTable.innerHTML = "";
+            dvTable.appendChild(table);
+
+            var fromValue = document.getElementById("fromValue");
+            var toValue = document.getElementById("toValue");
+            var totalValue = document.getElementById("totalValue");
+            
+            if(listToBeDisplayed.length < itemsPerPage){
+                fromValue.innerHTML = endValue - itemsPerPage + 1;    
+                toValue.innerHTML = endValue - (itemsPerPage - listToBeDisplayed.length + 1);
+            }else {
+                fromValue.innerHTML = endValue - itemsPerPage + 1;
+                toValue.innerHTML = endValue;
+            }
+            totalValue.innerHTML = customers.length - 1;
+           
+        }
+
+        // Getting page number and setting tbody value and table display info
+        function reply_click(clicked_id) {
+                // alert(clicked_id);
+            existingValue = currentPage;
+            var page = document.getElementById(clicked_id);
+            textValue = page.text;
+            currentPage = parseInt(textValue);
+            if(isNaN(currentPage) && textValue == "Next"){
+                currentPage = existingValue + 1;
+                if(currentPage == pages){
+                    document.getElementById("nextButton").classList.add("next");    
+                    document.getElementById("previousButton").classList.remove("previous");    
+                    var activePage = document.getElementById("pageNo"+currentPage);
+                    activePage.classList.add("active");
+                    activePage.classList.remove("paginate_button");    
+
+                    var prevPage = document.getElementById("pageNo"+existingValue);
+                    prevPage.classList.add("paginate_button");
+                    prevPage.classList.remove("active");
+                } else if (currentPage > 1 && currentPage <= pages){
+                    document.getElementById("nextButton").classList.remove("next");    
+                    document.getElementById("previousButton").classList.remove("previous");
+                    var activePage = document.getElementById("pageNo"+currentPage);
+                    activePage.classList.add("active");
+                    activePage.classList.remove("paginate_button");    
+
+                    var prevPage = document.getElementById("pageNo"+existingValue);
+                    prevPage.classList.add("paginate_button");
+                    prevPage.classList.remove("active");
+                }
+            }
+
+            if(isNaN(currentPage) && textValue == "Previous"){
+                currentPage = existingValue - 1;
+                if(currentPage == 1){
+                    document.getElementById("nextButton").classList.remove("next");    
+                    document.getElementById("previousButton").classList.add("previous");    
+                    var activePage = document.getElementById("pageNo"+currentPage);
+                    activePage.classList.add("active");
+                    activePage.classList.remove("paginate_button");    
+
+                    var prevPage = document.getElementById("pageNo"+existingValue);
+                    prevPage.classList.add("paginate_button");
+                    prevPage.classList.remove("active");
+                } else if (currentPage > 1 && currentPage <= pages){
+                    document.getElementById("nextButton").classList.remove("next");    
+                    document.getElementById("previousButton").classList.remove("previous");
+                    var activePage = document.getElementById("pageNo"+currentPage);
+                    activePage.classList.add("active");
+                    activePage.classList.remove("paginate_button");    
+
+                    var prevPage = document.getElementById("pageNo"+existingValue);
+                    prevPage.classList.add("paginate_button");
+                    prevPage.classList.remove("active");
+                }else if(currentPage ==1 && currentPage == pages){
+                    document.getElementById("previousButton").classList.add("previous");  
+                    document.getElementById("nextButton").classList.add("next");  
+                }
+            }
+
+            if(!isNaN(currentPage)){
+                if(currentPage == 1 && pages > 1){
+                    document.getElementById("previousButton").classList.add("previous");
+                    var activePage = document.getElementById("pageNo"+currentPage);
+                    activePage.classList.add("active");
+                    activePage.classList.remove("paginate_button");
+
+                    if(existingValue != 1){
+                        var prevPage = document.getElementById("pageNo"+existingValue);
+                        prevPage.classList.add("paginate_button");
+                        prevPage.classList.remove("active");
+                        document.getElementById("previousButton").classList.add("previous");
+                        document.getElementById("nextButton").classList.remove("next");
+                    }
+                }
+
+                if(currentPage != 1 && pages > 1 && currentPage <= pages){
+                    document.getElementById("previousButton").classList.remove("previous");
+                    document.getElementById("nextButton").classList.remove("next");
+                    var activePage = document.getElementById("pageNo"+currentPage);
+                    activePage.classList.add("active");
+                    activePage.classList.remove("paginate_button");
+
+                    var prevPage = document.getElementById("pageNo"+existingValue);
+                    prevPage.classList.add("paginate_button");
+                    prevPage.classList.remove("active");
+
+                    if(currentPage == pages){   
+                        document.getElementById("nextButton").classList.add("next");
+                    }
+                }
+
+                if(currentPage == 1 && currentPage == pages){
+                    document.getElementById("previousButton").classList.add("previous");  
+                    document.getElementById("nextButton").classList.add("next");  
+                }
+            }          
+
+            GenerateModifiedTable(currentPage);                  
+        }
+    </script>
+</body>
+</html>

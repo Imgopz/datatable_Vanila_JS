@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Table</title>
+        <style>
+            * {
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+            }
+
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #a8a8a8;
+                text-align: left;
+                padding: 10px;
+            }
+
+            th {
+                border-bottom: 4px solid rgb(4, 190, 4);
+                background-color: rgb(63, 63, 63);
+                color: white;
+                line-height: 30px;
+            }
+
+            td {
+                font-weight: 600;
+                font-size: 17px;
+            }
+            
+            input {
+                height: 30px;
+                width: 100%;
+                font-size: 16px;
+                padding: 0 5px;
+                outline: none;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>
+                    <p>Employee Number</p>
+                    <input type="text" id="enumber" name="enumber" placeholder="filter column...">
+                </th>
+                <th>
+                    <p>First Name</p>
+                    <input type="text" id="fname" name="fname" placeholder="filter column...">
+                </th>
+                <th>
+                    <p>Last Name</p>
+                    <input type="text" id="lname" name="lname" placeholder="filter column...">
+                </th>
+                <th>
+                    <p>Birth Date</p>
+                    <input type="text" id="bdate" name="bdate" placeholder="filter column...">
+                </th>
+                <th>
+                    <p>Hire Date</p>
+                    <input type="text" id="hdate" name="hdate" placeholder="filter column...">
+                </th>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>Maria</td>
+                <td>Andreas</td>
+                <td>10-09-1979</td>
+                <td>20-08-1999</td>
+            </tr>
+            <tr>
+                <td>1002</td>
+                <td>Lorem</td>
+                <td>Ipsum</td>
+                <td>08-06-1986</td>
+                <td>12-07-1998</td>
+            </tr>
+            <tr>
+                <td>1003</td>
+                <td>Jack</td>
+                <td>Sparrow</td>
+                <td>11-02-1985</td>
+                <td>30-08-1998</td>
+            </tr>
+            <tr>
+                <td>1004</td>
+                <td>Mani</td>
+                <td>Krishna</td>
+                <td>11-09-1992</td>
+                <td>21-04-2012</td>
+            </tr>
+            <tr>
+                <td>1005</td>
+                <td>Ajith</td>
+                <td>Kumar</td>
+                <td>12-02-1992</td>
+                <td>03-05-2015</td>
+            </tr>
+        </table>
+    </body>
+</html>
